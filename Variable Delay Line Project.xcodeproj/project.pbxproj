@@ -58,8 +58,24 @@
 			isa = PBXGroup;
 			children = (
 				D202689B29709BBF006AD5DA /* main.cpp */,
+				D213EF3C298BF67300CDF91E /* bin */,
+				D213EF3B298BF65700CDF91E /* TEST WAVS */,
 			);
 			path = "Variable Delay Line Project";
+			sourceTree = "<group>";
+		};
+		D213EF3B298BF65700CDF91E /* TEST WAVS */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "TEST WAVS";
+			sourceTree = "<group>";
+		};
+		D213EF3C298BF67300CDF91E /* bin */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = bin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

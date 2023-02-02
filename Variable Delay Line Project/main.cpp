@@ -4,9 +4,9 @@
 //
 // Created by Alex Sedman on 12/01/2023.
 //
-// test change for github commit
+// This program requires minimal robustness here - the purpose of this program is to provide a way to generate new WAVs with the implementation of variable delays, using various-order interpolation techniques. It is a closed project, thus does not require debugging.
 //
-// NOTE: program requires minimal robustness here - the purpose of this program is to provide a way to generate new WAVs with the implementation of variable delays, using various-order interpolation techniques. It is a closed project, thus does not require debugging.
+// Test file pathname: /Users/alexsedman/Downloads/fragmentary sample v2.wav
 
 #include <iostream>
 #include <string>
@@ -35,28 +35,6 @@ struct WAV_HEADER {
     uint32_t data_size;
 } wav_hdr;
 
-/* Function to print WAV header.
-void print_header() {
-    using namespace std;
-    //Print the header.
-    cout << "Chunk ID (File Spec): " << wav_hdr.RIFF[0] << wav_hdr.RIFF[1] << wav_hdr.RIFF[2] << wav_hdr.RIFF[3] << endl;
-    cout << "Chunk Size (File Size): " << wav_hdr.file_size << endl;
-    cout << "File Type (FourCC Tag): " << wav_hdr.WAVE[0] << wav_hdr.WAVE[1] << wav_hdr.WAVE[2] << wav_hdr.WAVE[3] << endl;
-    
-    cout << "Subchunk 1 ID (Format): " << wav_hdr.fmt[0] << wav_hdr.fmt[1] << wav_hdr.fmt[2] << wav_hdr.fmt[3] << endl;
-    cout << "Subchunk Size: " << wav_hdr.fmt_len << endl;
-    cout << "Audio Format: " << wav_hdr.fmt_type << endl;
-    cout << "Number of Channels: " << wav_hdr.no_channels << endl;
-    cout << "Sample Rate: " << wav_hdr.sample_rate << endl;
-    cout << "Data Rate (Bps): " << wav_hdr.byte_rate << endl;
-    cout << "Block Align: " << wav_hdr.block_align << endl;
-    cout << "Bits Per Sample: " << wav_hdr.sample_len << endl;
-    
-    cout << "Subchunk 2 ID (Data): " << wav_hdr.DATA[0] << wav_hdr.DATA[1] << wav_hdr.DATA[2] << wav_hdr.DATA[3] << endl;
-    cout << "Sub-Chank2 Size: " << wav_hdr.data_size << endl;
-}
-*/
-
 int main() {
     // Variables declared: pointer to the filepath name and an input string.
     int hdr_size = sizeof(wav_hdr); // A variable to measure the size of the WAV header (this should be equivalent to 44 bytes).
@@ -69,12 +47,44 @@ int main() {
     file_path = input.c_str();
     // Here, the filename is separated into characters and stored as a data stream in the memory. the variable 'file_path' points to the beginning of the data stream, which can be referenced when opening the file.
     
-    // The inputted file is
+    // The inputted file is allocated to the memory as a stream.
     FILE* wav_file;
     wav_file = fopen(file_path, "rb+"); // 'rb+' is a binary read/update parameter.
 
-    //Read the header
+    // Read the header.
     size_t bytes_read = fread(&wav_hdr, 1, hdr_size, wav_file); // An unsigned integer 'bytes_read' is assigned the value using the 'fread' function,
+    
+    // cout checks for the WAV.
+    std::cout << "WAV header memory stream pointer: " << &wav_file << std::endl;
+    std::cout << "Header bytes read: " << bytes_read << std::endl;
+    std::cout << "File size: " << wav_hdr.file_size << std::endl;
+    std::cout << "Size of data stream (excluding header: " << wav_hdr.data_size << std::endl;
+    
+    /* Stanford Variable Delay code below:
+    static double A[N];
+    static double *rptr = A; // read ptr
+    static double *wptr = A; // write ptr
+
+    double setdelay(int M) {
+        rptr = wptr - M;
+        while (rptr < A) {
+            rptr += N
+        }
+    }
+
+    double delayline(double x) {
+        double y;
+        A[wptr++] = x;
+        y = A[rptr++];
+        if ((wptr-A) >= N) {
+            wptr -= N
+        }
+        if ((rptr-A) >= N) {
+            rptr -= N
+        }
+        return y;
+    }
+    */
     
     fclose(wav_file);
     return 0;

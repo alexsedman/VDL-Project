@@ -10,7 +10,60 @@
 		D202689C29709BBF006AD5DA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D202689B29709BBF006AD5DA /* main.cpp */; };
 		D2C7C49A299279A500F1616F /* interpolate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2C7C498299279A500F1616F /* interpolate.cpp */; };
 		D2C7C49D299279B100F1616F /* commands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2C7C49B299279B100F1616F /* commands.cpp */; };
+		D2F076992992FE7900A97155 /* libSTK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F076952992FE5600A97155 /* libSTK.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D2F076942992FE5600A97155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F0768F2992FE5600A97155 /* STK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B0AC5BEE18CB31DE00D860C0;
+			remoteInfo = STK;
+		};
+		D2F076962992FE5600A97155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F0768F2992FE5600A97155 /* STK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B0EC33B718CB73A70005787B;
+			remoteInfo = rawwaves;
+		};
+		D2F0769A2992FE8C00A97155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F0768F2992FE5600A97155 /* STK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = B0EC337B18CB73480005787B;
+			remoteInfo = rawwaves;
+		};
+		D2F076B42993239A00A97155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F076AD2993239A00A97155 /* SAL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57A156C51593457600AA6445;
+			remoteInfo = "SAL test";
+		};
+		D2F076B62993239A00A97155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F076AD2993239A00A97155 /* SAL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5741B562241B1D9700A6E779;
+			remoteInfo = "SAL test (with SH)";
+		};
+		D2F076B82993239A00A97155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F076AD2993239A00A97155 /* SAL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57B4EF9F1CD81B6900134991;
+			remoteInfo = "SAL (with SH)";
+		};
+		D2F076BA2993239A00A97155 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D2F076AD2993239A00A97155 /* SAL.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 57B4EFA01CD81B6900134991;
+			remoteInfo = SALiOS;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		D202689629709BBF006AD5DA /* CopyFiles */ = {
@@ -31,6 +84,8 @@
 		D2C7C499299279A500F1616F /* interpolate.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interpolate.hpp; sourceTree = "<group>"; };
 		D2C7C49B299279B100F1616F /* commands.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = commands.cpp; sourceTree = "<group>"; };
 		D2C7C49C299279B100F1616F /* commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = commands.hpp; sourceTree = "<group>"; };
+		D2F0768F2992FE5600A97155 /* STK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = STK.xcodeproj; path = "stk-master/iOS/STK.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		D2F076AD2993239A00A97155 /* SAL.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SAL.xcodeproj; path = "../../../../Downloads/sal-master/SAL.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -38,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2F076992992FE7900A97155 /* libSTK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +106,7 @@
 				D202689B29709BBF006AD5DA /* main.cpp */,
 				D2C7C4972992799400F1616F /* Libraries */,
 				D202689929709BBF006AD5DA /* Products */,
+				D2F076982992FE7900A97155 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,12 +121,41 @@
 		D2C7C4972992799400F1616F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D2F076AD2993239A00A97155 /* SAL.xcodeproj */,
+				D2F0768F2992FE5600A97155 /* STK.xcodeproj */,
 				D2C7C498299279A500F1616F /* interpolate.cpp */,
 				D2C7C49B299279B100F1616F /* commands.cpp */,
 				D2C7C49C299279B100F1616F /* commands.hpp */,
 				D2C7C499299279A500F1616F /* interpolate.hpp */,
 			);
 			path = Libraries;
+			sourceTree = "<group>";
+		};
+		D2F076902992FE5600A97155 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2F076952992FE5600A97155 /* libSTK.a */,
+				D2F076972992FE5600A97155 /* rawwaves.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D2F076982992FE7900A97155 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D2F076AE2993239A00A97155 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2F076B52993239A00A97155 /* SAL_test */,
+				D2F076B72993239A00A97155 /* SAL test (with SH) */,
+				D2F076B92993239A00A97155 /* libSAL.a */,
+				D2F076BB2993239A00A97155 /* libSALiOS.a */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,6 +172,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D2F0769B2992FE8C00A97155 /* PBXTargetDependency */,
 			);
 			name = "Variable Delay Line Project";
 			productName = "Variable Delay Line Project";
@@ -117,12 +204,67 @@
 			mainGroup = D202688F29709BBF006AD5DA;
 			productRefGroup = D202689929709BBF006AD5DA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D2F076AE2993239A00A97155 /* Products */;
+					ProjectRef = D2F076AD2993239A00A97155 /* SAL.xcodeproj */;
+				},
+				{
+					ProductGroup = D2F076902992FE5600A97155 /* Products */;
+					ProjectRef = D2F0768F2992FE5600A97155 /* STK.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D202689729709BBF006AD5DA /* Variable Delay Line Project */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D2F076952992FE5600A97155 /* libSTK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSTK.a;
+			remoteRef = D2F076942992FE5600A97155 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2F076972992FE5600A97155 /* rawwaves.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = rawwaves.bundle;
+			remoteRef = D2F076962992FE5600A97155 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2F076B52993239A00A97155 /* SAL_test */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = SAL_test;
+			remoteRef = D2F076B42993239A00A97155 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2F076B72993239A00A97155 /* SAL test (with SH) */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = "SAL test (with SH)";
+			remoteRef = D2F076B62993239A00A97155 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2F076B92993239A00A97155 /* libSAL.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSAL.a;
+			remoteRef = D2F076B82993239A00A97155 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D2F076BB2993239A00A97155 /* libSALiOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSALiOS.a;
+			remoteRef = D2F076BA2993239A00A97155 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D202689429709BBF006AD5DA /* Sources */ = {
@@ -136,6 +278,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D2F0769B2992FE8C00A97155 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = rawwaves;
+			targetProxy = D2F0769A2992FE8C00A97155 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D202689D29709BBF006AD5DA /* Debug */ = {
@@ -253,6 +403,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4H52R7WJ8;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					/Users/alexsedman/Documents/Xcode,
+					Projects/Variable,
+					Delay,
+					Line,
+					"Project/stk-master/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -263,6 +421,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = H4H52R7WJ8;
 				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = (
+					/Users/alexsedman/Documents/Xcode,
+					Projects/Variable,
+					Delay,
+					Line,
+					"Project/stk-master/include",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

@@ -39,12 +39,11 @@ inline struct WAV_HEADER {
 class commands {
 public:
     struct WAV_HEADER wavHdr;
-    
     // General functions.
     std::string mainMenu(std::string input); // Main Menu.
-    void infoMenu(); // Info menu.
     std::string optionsMenu(std::string input); // Options menu.
     std::string filenameMenu(std::string input, std::string filePath); // New file name menu.
+    void printHdr(int headerSize, FILE* wavFile); // Prints header.
 };
 
 #endif

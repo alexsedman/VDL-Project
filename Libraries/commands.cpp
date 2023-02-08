@@ -1,9 +1,9 @@
-//
-// commands.hpp
-// VDL Project
-//
-// Created by Alex Sedman.
-//
+///
+/// commands.hpp
+/// VDL Project
+///
+/// Created by Alex Sedman.
+///
 
 #include <iostream>
 #include <string>
@@ -15,7 +15,7 @@
 
 /*----------MAIN MENU----------*/
 // Function to output main menu and return the user input.
-std::string commandLib::mainMenu(std::string input) {
+std::string commands::mainMenu(std::string input) {
     using namespace std;
     
     //Print the main menu.
@@ -27,31 +27,17 @@ std::string commandLib::mainMenu(std::string input) {
     return input;
 }
 
-/*----------INFO MENU----------*/
-// Function to print info section.
-void commandLib::infoMenu() {
-    using namespace std;
-    //Print info.
-    cout << endl;
-    cout << "---INFO---" << endl;
-    cout << "This program can read a .wav file, perform some basic processed to the audio data and write the resulting audio data to a new .wav file. Created by Alex Sedman." << endl;
-    cout << "At the main menu, please find a pathname for a mono WAV file that you would like to use. For example, an example pathname could be '/Users/username/Documents/testwav.wav'" << endl;
-    cout << "You can also enter '-quit' to end the program, or 'info' to bring this menu up again!" << endl;
-    cout << endl;
-}
-
 /*----------OPTIONS MENU----------*/
 // Function to output options once file has been read.
-std::string commandLib::optionsMenu(std::string input) {
+std::string commands::optionsMenu(std::string input) {
     using namespace std;
     
     //Print the option menu.
     cout << "---OPTIONS---" << endl;
-    cout << "- Enter '1' to read the WAV header info." << endl;
-    cout << "- Enter '2' to change the sample rate (CREATES A NEW FILE)." << endl;
-    cout << "- Enter '3' to insert a pause (CREATES A NEW FILE)." << endl;
-    cout << "- Enter '4' to peak normalise (CREATES A NEW FILE)." << endl;
-    cout << "- Enter '5' to add a mystery audio effect (CREATES A NEW FILE)." << endl;
+    // Options here
+    cout << "- 1: Default Doppler (Enzo's version)." << endl;
+    cout << "- 2: Standford variable delay." << endl;
+    cout << "- 3: 0th to multiple order interpolation (Multiple WAVs)." << endl;
     cout << "- Enter anything else to return to the main menu." << endl;
     cout << "Please input your choice: ";
     
@@ -61,12 +47,9 @@ std::string commandLib::optionsMenu(std::string input) {
 
 /*----------NEW FILENAME----------*/
 // Gets a file name from user for the new WAV and converts this input to a new file path.
-std::string commandLib::filenameMenu(std::string input, std::string filePath) {
+std::string commands::filenameMenu(std::string input, std::string filePath) {
     std::string newFilePath;
-    std::cout << "\n---OPTIONS---" << std::endl;
-    std::cout << "Please select a new filename." << std::endl;
-    std::cout << "NOTE: Files can not: \n- Contain a colon (':') \n- Contain a forward slash ('/') \n- Start with a period ('.') \n- Be more than 32 characters long \n- Be an empty input\nThe extension '.wav' will be automatically appended." << std::endl;
-    std::cout << "The new WAV will be created in the build folder." << std::endl;
+    std::cout << "\n---FILENAME---" << std::endl;
    
     // This while loop demands a valid filename input from the user.
     while (true) {
@@ -92,4 +75,29 @@ std::string commandLib::filenameMenu(std::string input, std::string filePath) {
         break;
     }
     return newFilePath;
+}
+
+/*----------PRINT WAV HEADER----------*/
+// Function to print WAV header.
+void commands::printHdr(int headerSize, FILE* wavFile) {
+    using namespace std;
+    commands hdr;
+    //Print the header.
+    cout << endl;
+    cout << "---OPTION 1: PRINT---" << endl;
+    cout << "Chunk ID (File Spec): " << wav_hdr.RIFF[0] << wav_hdr.RIFF[1] << wav_hdr.RIFF[2] << wav_hdr.RIFF[3] << endl;
+    cout << "Chunk Size: " << wav_hdr.fileSize << endl;
+    cout << "File Type (FourCC Tag): " << wav_hdr.WAVE[0] << wav_hdr.WAVE[1] << wav_hdr.WAVE[2] << wav_hdr.WAVE[3] << endl;
+    
+    cout << "Subchunk 1 ID (Format): " << wav_hdr.fmt[0] << wav_hdr.fmt[1] << wav_hdr.fmt[2] << wav_hdr.fmt[3] << endl;
+    cout << "Subchunk Size: " << wav_hdr.fmtSize << endl;
+    cout << "Audio Format: " << wav_hdr.fmtType << endl;
+    cout << "Number of Channels: " << wav_hdr.numChannels << endl;
+    cout << "Sample Rate: " << wav_hdr.sampleRate << endl;
+    cout << "Data Rate (Bps): " << wav_hdr.byteRate << endl;
+    cout << "Block Align: " << wav_hdr.blockAlign << endl;
+    cout << "Bits Per Sample: " << wav_hdr.bitsPerSample << endl;
+    
+    cout << "Subchunk 2 ID (Data): " << wav_hdr.DATA[0] << wav_hdr.DATA[1] << wav_hdr.DATA[2] << wav_hdr.DATA[3] << endl;
+    cout << "Subchunk 2 Size: " << wav_hdr.dataSize << endl << endl;
 }

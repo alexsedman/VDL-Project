@@ -11,10 +11,10 @@
 #include <cstdint>
 #include <algorithm>
 #include "commands.hpp"
-#include "interpolate.hpp"
+#include "delayLine.hpp"
 
 /*----------STK VARIABLE DELAY (1ST ORDER)----------*/
 // STK fractional delay model
-void interpolate::SALdoppler(std::string input) {
+void delayLine::SALdoppler(std::string input) {
     
 }

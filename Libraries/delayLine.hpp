@@ -10,10 +10,10 @@
 #include <fstream>
 #include <cstdint>
 #include <algorithm>
-#ifndef interpolate_hpp
-#define interpolate_hpp
+#ifndef delayLine_hpp
+#define delayLine_hpp
 
-class interpolate {
+class delayLine {
 public:
     // WAV file functions.
     

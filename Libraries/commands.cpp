@@ -11,7 +11,7 @@
 #include <cstdint>
 #include <algorithm>
 #include "commands.hpp"
-#include "interpolate.hpp"
+#include "delayLine.hpp"
 
 /*----------MAIN MENU----------*/
 // Function to output main menu and return the user input.
@@ -20,61 +20,10 @@ std::string commands::mainMenu(std::string input) {
     
     //Print the main menu.
     cout << "---MAIN MENU---" << endl;
-    cout << "Enter the pathname for the mono WAV file that you would like to edit." << endl;
-    cout << "Pathname: ";
+    cout << "WAV Pathname (16-bit mono only): ";
     
     getline(cin, input); // Gets user input.
     return input;
-}
-
-/*----------OPTIONS MENU----------*/
-// Function to output options once file has been read.
-std::string commands::optionsMenu(std::string input) {
-    using namespace std;
-    
-    //Print the option menu.
-    cout << "---OPTIONS---" << endl;
-    // Options here
-    cout << "- 1: Default Doppler (Enzo's version)." << endl;
-    cout << "- 2: Standford variable delay." << endl;
-    cout << "- 3: 0th to multiple order interpolation (Multiple WAVs)." << endl;
-    cout << "- Enter anything else to return to the main menu." << endl;
-    cout << "Please input your choice: ";
-    
-    getline(cin, input); // Gets user input.
-    return input;
-}
-
-/*----------NEW FILENAME----------*/
-// Gets a file name from user for the new WAV and converts this input to a new file path.
-std::string commands::filenameMenu(std::string input, std::string filePath) {
-    std::string newFilePath;
-    std::cout << "\n---FILENAME---" << std::endl;
-   
-    // This while loop demands a valid filename input from the user.
-    while (true) {
-        std::cout << "Filename: ";
-        std::getline(std::cin, input); // Gets user input.
-        
-        // Parity checks: Make sure the requirements for a legal filename are met, as outlined above by the console output.
-        if ((input.find(':') != std::string::npos) || (input.find('/') != std::string::npos) || (input.length() == 0) || (input.at(0) == '.') || (input.length() > 32)) {
-            std::cout << "ERROR: Invalid filename." << std::endl;
-            continue;
-        }
-        
-        newFilePath = input.std::string::append(".wav"); // Appends '.wav' to user input.
-        
-        // The following checks whether the inputted filepath already exists, and throws an error if it does.
-        FILE* testFile;
-        testFile = fopen(newFilePath.c_str(), "rb+");
-        if (testFile) {
-            std::cout << "ERROR: File already exists!" << std::endl;
-            fclose(testFile);
-            continue;
-        }
-        break;
-    }
-    return newFilePath;
 }
 
 /*----------PRINT WAV HEADER----------*/

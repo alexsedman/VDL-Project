@@ -1,9 +1,9 @@
-//
-// commands.hpp
-// VDL Project
-//
-// Created by Alex Sedman.
-//
+///
+/// commands.hpp
+/// VDL Project
+///
+/// Created by Alex Sedman.
+///
 
 #include <iostream>
 #include <string>
@@ -41,8 +41,6 @@ public:
     struct WAV_HEADER wavHdr;
     // General functions.
     std::string mainMenu(std::string input); // Main Menu.
-    std::string optionsMenu(std::string input); // Options menu.
-    std::string filenameMenu(std::string input, std::string filePath); // New file name menu.
     void printHdr(int headerSize, FILE* wavFile); // Prints header.
 };
 

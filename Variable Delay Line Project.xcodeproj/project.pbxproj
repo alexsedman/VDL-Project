@@ -8,9 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D202689C29709BBF006AD5DA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D202689B29709BBF006AD5DA /* main.cpp */; };
-		D2C7C49A299279A500F1616F /* interpolate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2C7C498299279A500F1616F /* interpolate.cpp */; };
+		D2C7C49A299279A500F1616F /* delayLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2C7C498299279A500F1616F /* delayLine.cpp */; };
 		D2C7C49D299279B100F1616F /* commands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2C7C49B299279B100F1616F /* commands.cpp */; };
-		D2F076992992FE7900A97155 /* libSTK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2F076952992FE5600A97155 /* libSTK.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -20,20 +19,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = B0AC5BEE18CB31DE00D860C0;
 			remoteInfo = STK;
-		};
-		D2F076962992FE5600A97155 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D2F0768F2992FE5600A97155 /* STK.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = B0EC33B718CB73A70005787B;
-			remoteInfo = rawwaves;
-		};
-		D2F0769A2992FE8C00A97155 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D2F0768F2992FE5600A97155 /* STK.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = B0EC337B18CB73480005787B;
-			remoteInfo = rawwaves;
 		};
 		D2F076B42993239A00A97155 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -80,8 +65,8 @@
 /* Begin PBXFileReference section */
 		D202689829709BBF006AD5DA /* Variable Delay Line Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Variable Delay Line Project"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D202689B29709BBF006AD5DA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		D2C7C498299279A500F1616F /* interpolate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interpolate.cpp; sourceTree = "<group>"; };
-		D2C7C499299279A500F1616F /* interpolate.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interpolate.hpp; sourceTree = "<group>"; };
+		D2C7C498299279A500F1616F /* delayLine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = delayLine.cpp; sourceTree = "<group>"; };
+		D2C7C499299279A500F1616F /* delayLine.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = delayLine.hpp; sourceTree = "<group>"; };
 		D2C7C49B299279B100F1616F /* commands.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = commands.cpp; sourceTree = "<group>"; };
 		D2C7C49C299279B100F1616F /* commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = commands.hpp; sourceTree = "<group>"; };
 		D2F0768F2992FE5600A97155 /* STK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = STK.xcodeproj; path = "stk-master/iOS/STK.xcodeproj"; sourceTree = SOURCE_ROOT; };
@@ -93,7 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2F076992992FE7900A97155 /* libSTK.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,10 +107,10 @@
 			children = (
 				D2F076AD2993239A00A97155 /* SAL.xcodeproj */,
 				D2F0768F2992FE5600A97155 /* STK.xcodeproj */,
-				D2C7C498299279A500F1616F /* interpolate.cpp */,
+				D2C7C498299279A500F1616F /* delayLine.cpp */,
 				D2C7C49B299279B100F1616F /* commands.cpp */,
 				D2C7C49C299279B100F1616F /* commands.hpp */,
-				D2C7C499299279A500F1616F /* interpolate.hpp */,
+				D2C7C499299279A500F1616F /* delayLine.hpp */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -135,7 +119,6 @@
 			isa = PBXGroup;
 			children = (
 				D2F076952992FE5600A97155 /* libSTK.a */,
-				D2F076972992FE5600A97155 /* rawwaves.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,7 +155,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				D2F0769B2992FE8C00A97155 /* PBXTargetDependency */,
 			);
 			name = "Variable Delay Line Project";
 			productName = "Variable Delay Line Project";
@@ -229,13 +211,6 @@
 			remoteRef = D2F076942992FE5600A97155 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D2F076972992FE5600A97155 /* rawwaves.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = rawwaves.bundle;
-			remoteRef = D2F076962992FE5600A97155 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		D2F076B52993239A00A97155 /* SAL_test */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -273,19 +248,11 @@
 			files = (
 				D202689C29709BBF006AD5DA /* main.cpp in Sources */,
 				D2C7C49D299279B100F1616F /* commands.cpp in Sources */,
-				D2C7C49A299279A500F1616F /* interpolate.cpp in Sources */,
+				D2C7C49A299279A500F1616F /* delayLine.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D2F0769B2992FE8C00A97155 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = rawwaves;
-			targetProxy = D2F0769A2992FE8C00A97155 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		D202689D29709BBF006AD5DA /* Debug */ = {
@@ -411,6 +378,7 @@
 					Line,
 					"Project/stk-master/include",
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -429,6 +397,7 @@
 					Line,
 					"Project/stk-master/include",
 				);
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

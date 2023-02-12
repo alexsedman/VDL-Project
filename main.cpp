@@ -79,10 +79,10 @@ int main() {
         
 
             // Apply the delay to the audio data
-            dopplerData[i] = audioData[std::max(i - std::floor(delay), 0)];
+            dopplerData[i] = audioData[std::max(i - static_cast<int>(std::floor(delay)), 0)]; // Zero order hold: rounds down to the nearest delay time
 
             // Update the data
-            newAudioData[i] = audioData[i] = dopplerData[i];
+            newAudioData[i] = audioData[i] + dopplerData[i];
         }
         
         ///
@@ -93,6 +93,7 @@ int main() {
         // tempnote: THIS WAV SECTION NEEDS TO BE PUT INTO A FUNCTION. WORK OUT WHY ITS GOING WRONG
         /*---WRITE---*/
         std::string newFilePath = input.substr(0, input.length() - 4);
+        newFilePath.append("NEW.wav");
         FILE* newFile;
         newFile = fopen(newFilePath.c_str(), "wb");
         fwrite(&wav_hdr, 1, headerSize, newFile);

@@ -11,7 +11,6 @@
 #include <cstdint>
 #include <algorithm>
 #include "commands.hpp"
-#include "delayLine.hpp"
 
 /*----------MAIN MENU----------*/
 // Function to output main menu and return the user input.
@@ -24,29 +23,4 @@ std::string commands::mainMenu(std::string input) {
     
     getline(cin, input); // Gets user input.
     return input;
-}
-
-/*----------PRINT WAV HEADER----------*/
-// Function to print WAV header.
-void commands::printHdr(int headerSize, FILE* wavFile) {
-    using namespace std;
-    commands hdr;
-    //Print the header.
-    cout << endl;
-    cout << "---OPTION 1: PRINT---" << endl;
-    cout << "Chunk ID (File Spec): " << wav_hdr.RIFF[0] << wav_hdr.RIFF[1] << wav_hdr.RIFF[2] << wav_hdr.RIFF[3] << endl;
-    cout << "Chunk Size: " << wav_hdr.fileSize << endl;
-    cout << "File Type (FourCC Tag): " << wav_hdr.WAVE[0] << wav_hdr.WAVE[1] << wav_hdr.WAVE[2] << wav_hdr.WAVE[3] << endl;
-    
-    cout << "Subchunk 1 ID (Format): " << wav_hdr.fmt[0] << wav_hdr.fmt[1] << wav_hdr.fmt[2] << wav_hdr.fmt[3] << endl;
-    cout << "Subchunk Size: " << wav_hdr.fmtSize << endl;
-    cout << "Audio Format: " << wav_hdr.fmtType << endl;
-    cout << "Number of Channels: " << wav_hdr.numChannels << endl;
-    cout << "Sample Rate: " << wav_hdr.sampleRate << endl;
-    cout << "Data Rate (Bps): " << wav_hdr.byteRate << endl;
-    cout << "Block Align: " << wav_hdr.blockAlign << endl;
-    cout << "Bits Per Sample: " << wav_hdr.bitsPerSample << endl;
-    
-    cout << "Subchunk 2 ID (Data): " << wav_hdr.DATA[0] << wav_hdr.DATA[1] << wav_hdr.DATA[2] << wav_hdr.DATA[3] << endl;
-    cout << "Subchunk 2 Size: " << wav_hdr.dataSize << endl << endl;
 }

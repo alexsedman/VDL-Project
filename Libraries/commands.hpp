@@ -39,12 +39,11 @@ inline struct WAV_HEADER {
 
 class commands {
 public:
-    struct WAV_HEADER wavHdr;
+    struct WAV_HEADER wavHdr; // WAV header data structure.
     
     // General functions.
-    std::string mainMenu(std::string input); // Main Menu.
-    
-    //
+    void mainMenu(); // Main Menu.
+    void writeFile(int headerSize, int16_t *newAudioData, int numOfSamples, std::string newFilePath); // Write.
 };
 
 #endif

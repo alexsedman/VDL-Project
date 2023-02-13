@@ -12,15 +12,23 @@
 #include <algorithm>
 #include "commands.hpp"
 
-/*----------MAIN MENU----------*/
+/*---MAIN MENU---*/
 // Function to output main menu and return the user input.
-std::string commands::mainMenu(std::string input) {
+void commands::mainMenu() {
     using namespace std;
     
     //Print the main menu.
     cout << "---MAIN MENU---" << endl;
-    cout << "WAV Pathname (16-bit mono only): ";
-    
-    getline(cin, input); // Gets user input.
-    return input;
+    cout << "Program starting, generating WAVs..." << endl;
+}
+
+/*---WRITE---*/
+void commands::writeFile(int headerSize, int16_t *newAudioData, int numOfSamples, std::string newFilePath) {
+    FILE *newFile;
+    newFile = fopen(newFilePath.c_str(), "wb");
+    fwrite(&wav_hdr, 1, headerSize, newFile);
+    fseek(newFile, headerSize, SEEK_SET);
+    fwrite(newAudioData, 2, numOfSamples, newFile);
+    fclose(newFile);
+    std::cout << "\nNew WAV '" << newFilePath << "' created.\n" << std::endl;
 }

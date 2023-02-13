@@ -13,7 +13,7 @@
 #ifndef commands_hpp
 #define commands_hpp
 
-/*----------WAV HEADER STRUCT----------*/
+/*---WAV HEADER STRUCT---*/
 // A data structure is defined for the WAV header.
 inline struct WAV_HEADER {
     // RIFF Chunk Descriptor
@@ -36,14 +36,28 @@ inline struct WAV_HEADER {
     uint32_t dataSize = 10 * 44100 * 2; // 882000
 } wav_hdr;
 
+/*---DOPPLER PROPERTIES---*/
+// A data structure for the test values.
+inline struct INIT_VALS {
+    int freq = 500; // Source frequency.
+    double dist = 500; // Start distance between pointers.
+    double vel = 0.3; // Read pointer velocity.
+    double accel = 0.000005; // Read pointer acceleration.
+} init;
 
 class commands {
 public:
     struct WAV_HEADER wavHdr; // WAV header data structure.
     
     // General functions.
-    void mainMenu(); // Main Menu.
-    void writeFile(int headerSize, int16_t *newAudioData, int numOfSamples, std::string newFilePath); // Write.
+    void menu(); // Main Menu.
+    void write(int headerSize, int16_t *newAudioData, int numOfSamples, std::string newFilePath); // Write.
+    void reset(int16_t *buffer, int bufferLen); // Reset the buffer.
+    
+    // Interpolation methods.
+    void zeroOrderHold(int16_t *newAudioData, int numOfSamples, int16_t *buffer, int bufferLen, int writePtr, double readPtr); // Zero order hold (0th order).
+    void nearestNeighbour(int16_t *newAudioData, int numOfSamples, int16_t *buffer, int bufferLen, int writePtr, double readPtr); // Nearest neighbour (0th order).
+    void linear(int16_t *newAudioData, int numOfSamples, int16_t *buffer, int bufferLen, int writePtr, double readPtr);
 };
 
 #endif

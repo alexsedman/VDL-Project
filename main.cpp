@@ -5,17 +5,8 @@
 /// Created by Alex Sedman on 12/01/2023.
 ///
 /// This program requires minimal robustness here - the purpose of this program is to provide a way to generate new WAVs with the implementation of variable delays, using various-order interpolation techniques. It is a closed project, thus does not require as much debugging.
+/// Furthermore, I've chosen to use a few shortcuts here - though having a lot of void functions and duplicate code is generally bad practice, considering that this code is a quick solution to produce various WAVs, the structure here will suffice.
 ///
-/// Test filepath:
-/// /Users/alexsedman/Downloads/test.wav
-///
-
-/// TODO:
-/// 0 order hold
-/// nearest neighbour [DONE]
-/// linear
-/// higher order filters
-/// get enzo's code running for an anchor test point
 
 #include <iostream>
 #include <string>
@@ -30,19 +21,16 @@ int main() {
     commands cmd;
     
     // Variables declared.
-    int headerSize = sizeof(wav_hdr), numOfSamples;
-    std::string input; // not needed
+    int headerSize = sizeof(wav_hdr), numOfSamples = wav_hdr.dataSize / 2;
+    std::string filename;
     
-    // Main menu called.
-    cmd.mainMenu();
-
-    /*---READ---*/
-    numOfSamples = wav_hdr.dataSize / 2;
+    // Main menu called (modified from a different project).
+    cmd.menu();
     
     /// FUNCTION SECTION
     /// This part of the code will contain the different forms of delay line/sample interpolation.
-    /// This includes a 0 order hold, linear, and bicubic solutions, as well as others.
-    /// It also includes solutions and simulations of doppler provided by the STK and SAL libraries, linked below.
+    /// This includes a 0 to many order interpolation solutions as well as others.
+    /// It also includes solutions and simulations of doppler, inspired by the STK and SAL libraries, linked above.
     /// WAVs with the various different solutions will be printed to the build folder.
 
     // Data stream and buffer stream are created.
@@ -51,40 +39,38 @@ int main() {
     int16_t *buffer = new(std::nothrow) int16_t[bufferLen]; // Buffer array of length 'bufferLen' created in the memory.
     
     // Pointers created, as well as pointer properties.
-    int writePtr;
-    static double readPtr;
-    static double d = 500; // Start distance between pointers.
-    static double v = 0.3; // Read pointer velocity.
-    static double a = 0.000005; // Read pointer acceleration.
-    int f0 = 500; // Source frequency.
-
+    int writePtr = 0;
+    double readPtr = 0.0;
+    
     // For the sake of convenience, I have separated the various interpolation methods into separate functions. This means there may be some duplicate code here, as some methods may share very similar setups, but it makes the code more readable and simpler to implement for now.
     
-    
-    for (int sampleIndex = 0; sampleIndex < numOfSamples; sampleIndex++) {
-        writePtr = sampleIndex % bufferLen; // Write pointer position defined within the circular buffer.
-        
-        // Read pointer position defined within the circular buffer.
-        readPtr = writePtr - d;
-        while (readPtr < 0) {
-            readPtr += bufferLen;
+    // For loop to iterate through the various methods of sample interpolation, and write to appropriate files.
+    for (int method = 0; method < 2; method++) {
+        switch (method) {
+            case 0:
+                cmd.zeroOrderHold(newAudioData, numOfSamples, buffer, bufferLen, writePtr, readPtr);
+                filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/zeroOrderHold.wav";
+                break;
+            case 1:
+                cmd.nearestNeighbour(newAudioData, numOfSamples, buffer, bufferLen, writePtr, readPtr);
+                filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/nearestNeighbour.wav";
+                break;
         }
+        /// TODO:
+        /// 0 order hold
+        /// nearest neighbour [DONE]
+        /// linear
+        /// higher order filters
+        /// get enzo's code running for an anchor test point
         
-        // Write buffer creates sine wav in the buffer.
-        buffer[writePtr] = 32767 * sin(2 * M_PI * f0 * sampleIndex / wav_hdr.sampleRate);
-
-        int nearestNeighbour = round(readPtr);
-        newAudioData[sampleIndex] = buffer[nearestNeighbour];
-        
-        d += v;
-        v += a;
+        cmd.write(headerSize, newAudioData, numOfSamples, filename);
+        cmd.reset(buffer, bufferLen);
     }
     
     ///
     ///
     ///
     
-    
-    /*---WRITE---*/
-    cmd.writeFile(headerSize, newAudioData, numOfSamples, "/Users/alexsedman/Downloads/test.wav");
+    std::cout << "Program terminating..." << std::endl;
+    return 0;
 }

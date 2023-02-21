@@ -46,21 +46,22 @@ inline struct INIT_VALS {
 
 /*---DATA INF---*/
 // A data structure containing data and buffer stream information.
-inline struct DATA_INF {
+inline struct DATA {
     int headerSize = sizeof(wav_hdr), numOfSamples = wav_hdr.dataSize / 2;
     
     int16_t *inputStream = new(std::nothrow) int16_t[numOfSamples];
     int16_t *outputStream = new(std::nothrow) int16_t[numOfSamples];
     
-    int bufferLen = 204800;
+    int bufferLen = 2048;
     int16_t *buffer = new(std::nothrow) int16_t[bufferLen]; // Buffer array of length 'bufferLen' created in the memory.
-} data_inf;
+} data;
 
 class commands {
 public:    
     // General functions.
-    std::string mainMenu(std::string input); // Main Menu.
+    std::string mainMenu(std::string inputName); // Main Menu.
     void printHdr(FILE* wavFile); // Prints header.
+    std::string rename(std::string inputName, std::string filterType); // Get name for file.
     void read(FILE* wavFile);
     void write(std::string newFilePath); // Write.
     void reset(); // Reset the buffer.

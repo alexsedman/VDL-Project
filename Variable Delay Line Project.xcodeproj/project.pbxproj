@@ -51,7 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				D202689B29709BBF006AD5DA /* main.cpp */,
-				D2C7C4972992799400F1616F /* Libraries */,
+				D2C7C4972992799400F1616F /* bin */,
 				D202689929709BBF006AD5DA /* Products */,
 				D2F076982992FE7900A97155 /* Frameworks */,
 			);
@@ -65,7 +65,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D2C7C4972992799400F1616F /* Libraries */ = {
+		D2C7C4972992799400F1616F /* bin */ = {
 			isa = PBXGroup;
 			children = (
 				D2C7C49B299279B100F1616F /* commands.cpp */,
@@ -75,7 +75,7 @@
 				D24553C329A4E85800CEB602 /* pointercmd.hpp */,
 				D24553BF29A3A21300CEB602 /* interpolations.hpp */,
 			);
-			path = Libraries;
+			path = bin;
 			sourceTree = "<group>";
 		};
 		D2F076982992FE7900A97155 /* Frameworks */ = {

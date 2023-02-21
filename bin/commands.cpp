@@ -52,7 +52,16 @@ void commands::printHdr(FILE* wavFile) {
     cout << "Subchunk 2 Size: " << wav_hdr.dataSize << endl << endl;
 }
 
+/*---RENAME---*/
+// File naming function.
+std::string commands::rename(std::string input, std::string filterType) {
+    std::string output = input;
+    output.replace(output.end()-4, output.end(), filterType);
+    return output;
+}
+
 /*---READ---*/
+// Function to read a file.
 void commands::read(FILE* wavFile) {
     fread(&wav_hdr, 1, data_inf.headerSize, wavFile); // Header information is read from 'wavFile'.
     fseek(wavFile, data_inf.headerSize, SEEK_SET); // File pointer is set to the start of the audio stream.

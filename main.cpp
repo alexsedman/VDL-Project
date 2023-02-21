@@ -25,7 +25,7 @@ int main() {
     interpolate filter;
     
     /*---VARIABLES---*/
-    std::string filename, input;
+    std::string input, outputName;
     const char* filePath;
     FILE* wavFile;
     
@@ -75,36 +75,36 @@ int main() {
             switch (method) {
                 case 0:
                     filter.unfiltered();
-                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/unfiltered.wav";
+                    outputName = cmd.rename(input, "-Unfiltered.wav");
                     break;
                 case 1:
                     filter.zeroOrderHold();
-                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/zeroOrderHold.wav";
+                    outputName = cmd.rename(input, "-0-ZeroOrderHold.wav");
                     break;
                 case 2:
                     filter.nearestNeighbour();
-                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/nearestNeighbour.wav";
+                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/nearestNeighbour.wav";
                     break;
                 case 3:
                     filter.linear();
-                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/linear.wav";
+                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/linear.wav";
                     break;
                 case 4:
                     filter.quadratic();
-                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/quadratic.wav";
+                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/quadratic.wav";
                     break;
                 case 5:
                     filter.cubic();
-                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/cubic.wav";
+                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/cubic.wav";
                     break;
                 case 6:
                     filter.sinc();
-                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/sinc.wav";
+                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/sinc.wav";
                     break;
             }
             
             /*---WRITE & RESET---*/
-            cmd.write(filename);
+            cmd.write(outputName);
             cmd.reset();
         }
     }

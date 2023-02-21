@@ -63,6 +63,7 @@ public:
     void printHdr(FILE* wavFile); // Prints header.
     void read(FILE* wavFile);
     void write(std::string newFilePath); // Write.
+    std::string rename(std::string input, std::string filterType);
     void reset(); // Reset the buffer.
 };
 

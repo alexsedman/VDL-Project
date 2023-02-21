@@ -38,26 +38,32 @@ inline struct WAV_HEADER {
 
 /*---DOPPLER PROPERTIES---*/
 // A data structure for the test values.
+// NOTE: TO REMOVE AND REPLACE WITH BUFFER/DATASTREAM PROPERTIES INSTEAD.
 inline struct INIT_VALS {
-    int freq = 500; // Source frequency.
     double dist = 500; // Start distance between pointers.
-    double vel = 0.3; // Read pointer velocity.
-    double accel = 0.000005; // Read pointer acceleration.
+    double vel = 0.5; // Read pointer velocity.
 } init;
 
+/*---DATA INF---*/
+// A data structure containing data and buffer stream information.
+inline struct DATA_INF {
+    int headerSize = sizeof(wav_hdr), numOfSamples = wav_hdr.dataSize / 2;
+    
+    int16_t *inputStream = new(std::nothrow) int16_t[numOfSamples];
+    int16_t *outputStream = new(std::nothrow) int16_t[numOfSamples];
+    
+    int bufferLen = 204800;
+    int16_t *buffer = new(std::nothrow) int16_t[bufferLen]; // Buffer array of length 'bufferLen' created in the memory.
+} data_inf;
+
 class commands {
-public:
-    struct WAV_HEADER wavHdr; // WAV header data structure.
-    
+public:    
     // General functions.
-    void menu(); // Main Menu.
-    void write(int headerSize, int16_t *newAudioData, int numOfSamples, std::string newFilePath); // Write.
-    void reset(int16_t *buffer, int bufferLen); // Reset the buffer.
-    
-    // Interpolation methods.
-    void zeroOrderHold(int16_t *newAudioData, int numOfSamples, int16_t *buffer, int bufferLen, int writePtr, double readPtr); // Zero order hold (0th order).
-    void nearestNeighbour(int16_t *newAudioData, int numOfSamples, int16_t *buffer, int bufferLen, int writePtr, double readPtr); // Nearest neighbour (0th order).
-    void linear(int16_t *newAudioData, int numOfSamples, int16_t *buffer, int bufferLen, int writePtr, double readPtr);
+    std::string mainMenu(std::string input); // Main Menu.
+    void printHdr(FILE* wavFile); // Prints header.
+    void read(FILE* wavFile);
+    void write(std::string newFilePath); // Write.
+    void reset(); // Reset the buffer.
 };
 
 #endif

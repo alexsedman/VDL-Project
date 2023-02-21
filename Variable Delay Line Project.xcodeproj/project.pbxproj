@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D202689C29709BBF006AD5DA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D202689B29709BBF006AD5DA /* main.cpp */; };
+		D24553C029A3A21300CEB602 /* interpolations.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D24553BE29A3A21300CEB602 /* interpolations.cpp */; };
+		D24553C429A4E85800CEB602 /* pointercmd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D24553C229A4E85800CEB602 /* pointercmd.cpp */; };
 		D2C7C49D299279B100F1616F /* commands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2C7C49B299279B100F1616F /* commands.cpp */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +28,10 @@
 /* Begin PBXFileReference section */
 		D202689829709BBF006AD5DA /* Variable Delay Line Project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Variable Delay Line Project"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D202689B29709BBF006AD5DA /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		D24553BE29A3A21300CEB602 /* interpolations.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = interpolations.cpp; sourceTree = "<group>"; };
+		D24553BF29A3A21300CEB602 /* interpolations.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = interpolations.hpp; sourceTree = "<group>"; };
+		D24553C229A4E85800CEB602 /* pointercmd.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = pointercmd.cpp; sourceTree = "<group>"; };
+		D24553C329A4E85800CEB602 /* pointercmd.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = pointercmd.hpp; sourceTree = "<group>"; };
 		D2C7C49B299279B100F1616F /* commands.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = commands.cpp; sourceTree = "<group>"; };
 		D2C7C49C299279B100F1616F /* commands.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = commands.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -64,6 +70,10 @@
 			children = (
 				D2C7C49B299279B100F1616F /* commands.cpp */,
 				D2C7C49C299279B100F1616F /* commands.hpp */,
+				D24553BE29A3A21300CEB602 /* interpolations.cpp */,
+				D24553C229A4E85800CEB602 /* pointercmd.cpp */,
+				D24553C329A4E85800CEB602 /* pointercmd.hpp */,
+				D24553BF29A3A21300CEB602 /* interpolations.hpp */,
 			);
 			path = Libraries;
 			sourceTree = "<group>";
@@ -132,8 +142,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D24553C429A4E85800CEB602 /* pointercmd.cpp in Sources */,
 				D202689C29709BBF006AD5DA /* main.cpp in Sources */,
 				D2C7C49D299279B100F1616F /* commands.cpp in Sources */,
+				D24553C029A3A21300CEB602 /* interpolations.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -25,23 +25,23 @@ int main() {
     interpolate filter;
     
     /*---VARIABLES---*/
-    std::string inputName, outputName;
+    std::string filename, input;
     const char* filePath;
     FILE* wavFile;
     
     
     while (true) {
         /*---MENU---*/
-        inputName = cmd.mainMenu(inputName);
+        input = cmd.mainMenu(input);
         
         /*---QUIT---*/
-        if (inputName == "-quit") {
+        if (input == "-quit") {
             std::cout << "\nQuitting...\n" << std::endl;
             return 0; // Quits program.
         }
         
         /*---FOPEN---*/
-        filePath = inputName.c_str(); // Sets the file path to the user input.
+        filePath = input.c_str(); // Sets the file path to the user input.
         wavFile = fopen(filePath, "rb"); // Attempts to open the inputted file.
         
         /*---FOPEN ERROR---*/
@@ -56,56 +56,55 @@ int main() {
         /*---HDR INF ERROR---*/
         if (wav_hdr.numChannels != 1 || wav_hdr.bitsPerSample != 16) {
             std::cout << "\nERROR: File is not a WAV, or is not mono/16-bit.\n" << std::endl;
-            continue;
+            continue; // If the file is stereo, throw an error:
         }
         
         // File read successful:
-        std::cout << "\nFile read successful." << std::endl;
-        cmd.printHdr(wavFile);
+        std::cout << "\nFile read successful.\n" << std::endl;
+        cmd.printHdr(wavFile); // File header information is printed.
         
         /*---FUNCTION SECTION---*/
         /// This part of the code will contain the different forms of delay line/sample interpolation.
         /// This includes a 0 to many order interpolation solutions as well as others.
         /// It also includes solutions and simulations of doppler, inspired by the STK and SAL libraries, linked above.
         /// WAVs with the various different solutions will be printed to the build folder.
-        /// For the sake of convenience, I have separated the various interpolation methods into separate functions.
-        /// This means there may be some duplicate code here,  but it makes the code more readable and simpler to implement for now.
+        /// For the sake of convenience, I have separated the various interpolation methods into separate functions. This means there may be some duplicate code here, as some methods may share very similar setups, but it makes the code more readable and simpler to implement for now.
         
         /*---INTERPOLATION---*/
         for (int method = 0; method < 7; method++) {
             switch (method) {
                 case 0:
                     filter.unfiltered();
-                    outputName = cmd.rename(inputName, "-0-Unfiltered");
+                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/unfiltered.wav";
                     break;
                 case 1:
                     filter.zeroOrderHold();
-                    outputName = cmd.rename(inputName, "-0-ZeroOrderHold");
+                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/zeroOrderHold.wav";
                     break;
                 case 2:
                     filter.nearestNeighbour();
-                    outputName = cmd.rename(inputName, "-0-NearestNeighbour");
+                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/nearestNeighbour.wav";
                     break;
                 case 3:
                     filter.linear();
-                    outputName = cmd.rename(inputName, "-1-Linear");
+                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/linear.wav";
                     break;
                 case 4:
                     filter.quadratic();
-                    outputName = cmd.rename(inputName, "-2-Quadratic");
+                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/quadratic.wav";
                     break;
                 case 5:
                     filter.cubic();
-                    outputName = cmd.rename(inputName, "-3-Cubic");
+                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/cubic.wav";
                     break;
                 case 6:
                     filter.sinc();
-                    outputName = cmd.rename(inputName, "-#-Sinc");
+                    filename = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/sinc.wav";
                     break;
             }
             
             /*---WRITE & RESET---*/
-            cmd.write(outputName);
+            cmd.write(filename);
             cmd.reset();
         }
     }

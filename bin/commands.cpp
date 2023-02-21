@@ -16,15 +16,15 @@
 
 /*----------MAIN MENU----------*/
 // Function to output main menu and return the user input.
-std::string commands::mainMenu(std::string inputName) {
+std::string commands::mainMenu(std::string input) {
     using namespace std;
     
     //Print the main menu.
     cout << "---MAIN MENU---" << endl;
     cout << "WAV Pathname (16-bit mono only): ";
     
-    getline(cin, inputName); // Gets user input.
-    return inputName;
+    getline(cin, input); // Gets user input.
+    return input;
 }
 
 /*----------PRINT WAV HEADER----------*/
@@ -52,19 +52,11 @@ void commands::printHdr(FILE* wavFile) {
     cout << "Subchunk 2 Size: " << wav_hdr.dataSize << endl << endl;
 }
 
-std::string commands::rename(std::string inputName, std::string filterType) {
-    std::string outputName = inputName;
-    outputName.erase (outputName.end()-4, outputName.end());
-    outputName.append(filterType);
-    outputName.append(".wav");
-    return outputName;
-}
-
 /*---READ---*/
 void commands::read(FILE* wavFile) {
-    fread(&wav_hdr, 1, data.headerSize, wavFile); // Header information is read from 'wavFile'.
-    fseek(wavFile, data.headerSize, SEEK_SET); // File pointer is set to the start of the audio stream.
-    fread(data.inputStream, 2, data.numOfSamples, wavFile); // Audio stream is read from 'wavFile'.
+    fread(&wav_hdr, 1, data_inf.headerSize, wavFile); // Header information is read from 'wavFile'.
+    fseek(wavFile, data_inf.headerSize, SEEK_SET); // File pointer is set to the start of the audio stream.
+    fread(data_inf.inputStream, 2, data_inf.numOfSamples, wavFile); // Audio stream is read from 'wavFile'.
     fclose(wavFile);
 }
 
@@ -73,9 +65,9 @@ void commands::read(FILE* wavFile) {
 void commands::write(std::string newFilePath) {
     FILE *newFile;
     newFile = fopen(newFilePath.c_str(), "wb");
-    fwrite(&wav_hdr, 1, data.headerSize, newFile);
-    fseek(newFile, data.headerSize, SEEK_SET);
-    fwrite(data.outputStream, 2, data.numOfSamples, newFile);
+    fwrite(&wav_hdr, 1, data_inf.headerSize, newFile);
+    fseek(newFile, data_inf.headerSize, SEEK_SET);
+    fwrite(data_inf.outputStream, 2, data_inf.numOfSamples, newFile);
     fclose(newFile);
     std::cout << "New WAV '" << newFilePath << "' created." << std::endl;
 }
@@ -83,7 +75,7 @@ void commands::write(std::string newFilePath) {
 /*---RESET---*/
 // Resets the buffer, and any other values, ready for a different interpolation method.
 void commands::reset() {
-    for (int i = 0; i < data.bufferLen; i++) {
-        data.buffer[i] = NULL;
+    for (int i = 0; i < data_inf.bufferLen; i++) {
+        data_inf.buffer[i] = NULL;
     }
 }

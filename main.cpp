@@ -83,23 +83,23 @@ int main() {
                     break;
                 case 2:
                     filter.nearestNeighbour();
-                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/nearestNeighbour.wav";
+                    outputName = cmd.rename(input, "-0-NearestNeighbour.wav");
                     break;
                 case 3:
                     filter.linear();
-                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/linear.wav";
+                    outputName = cmd.rename(input, "-1-Linear.wav");
                     break;
                 case 4:
                     filter.quadratic();
-                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/quadratic.wav";
+                    outputName = cmd.rename(input, "-2-Quadratic.wav");
                     break;
                 case 5:
                     filter.cubic();
-                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/cubic.wav";
+                    outputName = cmd.rename(input, "-3-Cubic.wav");
                     break;
                 case 6:
                     filter.sinc();
-                    outputName = "/Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/Test WAVs/sinc.wav";
+                    outputName = cmd.rename(input, "-Sinc.wav");
                     break;
             }
             

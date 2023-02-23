@@ -29,7 +29,6 @@ int main() {
     const char* filePath;
     FILE* wavFile;
     
-    
     while (true) {
         /*---MENU---*/
         input = cmd.mainMenu(input);

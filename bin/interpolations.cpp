@@ -97,18 +97,20 @@ void interpolate::quadratic() {
         double readPtr = ptrcmd.defineReadPointer(writePtr, d); // Read pointer defined.
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
         
-        int prev_i = floor(readPtr) - 1;
-        int next_i = ceil(readPtr) + 1;
-        int16_t prevSample = data_inf.buffer[(prev_i + data_inf.bufferLen) % data_inf.bufferLen];
-        int16_t curSample = data_inf.buffer[(static_cast<int>(floor(readPtr)) + data_inf.bufferLen) % data_inf.bufferLen];
-        int16_t nextSample = data_inf.buffer[(next_i) % data_inf.bufferLen];
+        int i0 = round(readPtr) - 1;
+        int i1 = round(readPtr);
+        int i2 = round(readPtr) + 1;
         
-        double readPtrPos = readPtr - floor(readPtr);
+        int16_t s0 = data_inf.buffer[i0];
+        int16_t s1 = data_inf.buffer[i1];
+        int16_t s2 = data_inf.buffer[i2];
+        
+        double readPtrPos = readPtr - (int)readPtr;
         
         // Calculate the coefficients for the quadratic equation
-        double a = 0.5 * (prevSample - 2 * curSample + nextSample);
-        double b = 0.5 * (nextSample - prevSample);
-        double c = curSample;
+        double a = 0.5 * (s0 - 2 * s1 + s2);
+        double b = 0.5 * (s2 - s0);
+        double c = s1;
         
         int16_t outputSample = a * readPtrPos * readPtrPos + b * readPtrPos + c;
         

@@ -55,7 +55,7 @@ void interpolate::nearestNeighbour() {
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
         
         // NEAREST NEIGHBOUR: read pointer is rounded to the nearest sample.
-        int nearest_i = round(readPtr);
+        int nearest_i = (int)round(readPtr) % data_inf.bufferLen;
         data_inf.outputStream[i] = data_inf.buffer[nearest_i];
         
         // Distance increased via velocity.
@@ -74,7 +74,7 @@ void interpolate::linear() {
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
         
         int prev_i = floor(readPtr);
-        int next_i = ceil(readPtr);
+        int next_i = (int)ceil(readPtr) % data_inf.bufferLen;
         int16_t prevSample = data_inf.buffer[prev_i];
         int16_t nextSample = data_inf.buffer[next_i];
         
@@ -97,22 +97,23 @@ void interpolate::quadratic() {
         double readPtr = ptrcmd.defineReadPointer(writePtr, d); // Read pointer defined.
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
         
-        int i0 = round(readPtr) - 1;
-        int i1 = round(readPtr);
-        int i2 = round(readPtr) + 1;
+        // Calculate the nearest sample indeces.
+        int i0 = ((int)floor(readPtr) % data_inf.bufferLen) - 1;
+        int i1 = floor(readPtr);
+        int i2 = ((int)floor(readPtr) % data_inf.bufferLen) + 1;
         
+        // Find the amplitude for these 3 nearest samples. Treating polynomial as if i0 = 0, i1 = 1, i2 = 2.
         int16_t s0 = data_inf.buffer[i0];
         int16_t s1 = data_inf.buffer[i1];
         int16_t s2 = data_inf.buffer[i2];
         
-        double readPtrPos = readPtr - (int)readPtr;
+        // Calculate coefficients and read pointer position (read pointer should be located between i1 and i2).
+        double a = ((s0 - s2) + 2 * (s1 - s0)) * -1;
+        double b = s1 - s0 - a;
+        double c = s0;
+        double x = readPtr - (int)readPtr + 1;
         
-        // Calculate the coefficients for the quadratic equation
-        double a = 0.5 * (s0 - 2 * s1 + s2);
-        double b = 0.5 * (s2 - s0);
-        double c = s1;
-        
-        int16_t outputSample = a * readPtrPos * readPtrPos + b * readPtrPos + c;
+        int16_t outputSample = a * x * x + b * x + c;
         
         data_inf.outputStream[i] = outputSample;
         
@@ -129,30 +130,30 @@ void interpolate::cubic() {
         int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
         double readPtr = ptrcmd.defineReadPointer(writePtr, d); // Read pointer defined.
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
-        
-        int prev2SampleIndex = floor(readPtr) - 2;
-        int prevSampleIndex = floor(readPtr) - 1;
-        int nextSampleIndex = ceil(readPtr) + 1;
-        int next2SampleIndex = ceil(readPtr) + 2;
-        
-        int16_t prev2Sample = data_inf.buffer[(prev2SampleIndex + data_inf.bufferLen) % data_inf.bufferLen];
-        int16_t prevSample = data_inf.buffer[(prevSampleIndex + data_inf.bufferLen) % data_inf.bufferLen];
-        int16_t curSample = data_inf.buffer[(static_cast<int>(floor(readPtr)) + data_inf.bufferLen) % data_inf.bufferLen];
-        int16_t nextSample = data_inf.buffer[(nextSampleIndex) % data_inf.bufferLen];
-        int16_t next2Sample = data_inf.buffer[(next2SampleIndex) % data_inf.bufferLen];
-        
-        double readPtrPos = readPtr - floor(readPtr);
-        
-        // Calculate the coefficients for the cubic equation
-        double a = (-prev2Sample + 3 * prevSample - 3 * nextSample + next2Sample) / 6.0;
-        double b = (prev2Sample - 2 * prevSample + 2 * nextSample - next2Sample) / 2.0;
-        double c = (-prev2Sample + next2Sample) / 2.0;
-        double d = (prevSample + nextSample) / 2.0;
-        
-        int16_t outputSample = a * readPtrPos * readPtrPos * readPtrPos + b * readPtrPos * readPtrPos + c * readPtrPos + d;
-        
+
+        // Calculate the nearest sample indeces.
+        int i0 = ((int)floor(readPtr) % data_inf.bufferLen) - 1;
+        int i1 = floor(readPtr);
+        int i2 = ((int)floor(readPtr) % data_inf.bufferLen) + 1;
+        int i3 = ((int)floor(readPtr) % data_inf.bufferLen) + 2;
+
+        // Find the amplitude for these 4 nearest samples. Treating polynomial as if i0 = 0, i1 = 1, i2 = 2, i3 = 3.
+        int16_t s0 = data_inf.buffer[i0];
+        int16_t s1 = data_inf.buffer[i1];
+        int16_t s2 = data_inf.buffer[i2];
+        int16_t s3 = data_inf.buffer[i3];
+
+        // Calculate coefficients and read pointer position (read pointer should be located between i1 and i2).
+        double a = -0.5 * s0 + 1.5 * s1 - 1.5 * s2 + 0.5 * s3;
+        double b = s0 - 2.5 * s1 + 2 * s2 - 0.5 * s3;
+        double c = -0.5 * s0 + 0.5 * s2;
+        double d = s1;
+        double x = readPtr - (int)readPtr + 1;
+
+        int16_t outputSample = a * x * x * x + b * x * x + c * x + d;
+
         data_inf.outputStream[i] = outputSample;
-        
+
         d += v;
     }
 }

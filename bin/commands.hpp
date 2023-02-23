@@ -52,7 +52,7 @@ inline struct DATA_INF {
     int16_t *inputStream = new(std::nothrow) int16_t[numOfSamples];
     int16_t *outputStream = new(std::nothrow) int16_t[numOfSamples];
     
-    int bufferLen = 204800;
+    const int bufferLen = 204800;
     int16_t *buffer = new(std::nothrow) int16_t[bufferLen]; // Buffer array of length 'bufferLen' created in the memory.
 } data_inf;
 

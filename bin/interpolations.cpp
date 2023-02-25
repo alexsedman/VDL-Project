@@ -162,7 +162,7 @@ void interpolate::cubic() {
 // Complex order Doppler shift: uses the sinc function to find the ideal sampled value for a given read pointer position and applies a low-pass filter to avoid aliasing.
 void interpolate::sinc() {
     double d = init.dist, v = init.vel;
-    const double alpha = 0.95;
+    const double alpha = 1.0;
     double s1 = 0, s2 = 0, s3 = 0, s4 = 0;
 
     for (int i = 0; i < data_inf.numOfSamples; i++) {
@@ -171,7 +171,7 @@ void interpolate::sinc() {
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
         
         int n = floor(readPtr);
-        for (int k = n - 4; k <= n + 4; k++) {
+        for (int k = n - 7; k <= n + 7; k++) {
             if (k >= 0 && k < data_inf.bufferLen) {
                 double sincVal = (k == n) ? 1.0 : sin(M_PI * (k - n)) / (M_PI * (k - n));
                 double sampleVal = data_inf.buffer[k];

@@ -1,10 +1,3 @@
-///
-/// commands.hpp
-/// VDL Project
-///
-/// Created by Alex Sedman.
-///
-
 #include <iostream>
 #include <string>
 #include <fstream>

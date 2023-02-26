@@ -11,7 +11,7 @@
 inline struct WAV_HEADER {
     // RIFF Chunk Descriptor
     uint8_t RIFF[4] = {'R', 'I', 'F', 'F'};
-    uint32_t fileSize = 882036; // This field needs to be updated later to reflect the actual size of the file
+    uint32_t fileSize = 1764036; // This field needs to be updated later to reflect the actual size of the file
     uint8_t WAVE[4] = {'W', 'A', 'V', 'E'};
 
     // fmt subchunk
@@ -26,7 +26,7 @@ inline struct WAV_HEADER {
 
     // Data subchunk
     uint8_t DATA[4] = {'d', 'a', 't', 'a'};
-    uint32_t dataSize = 10 * 44100 * 2; // 882000
+    uint32_t dataSize = 20 * 44100 * 2; // 882000
 } wav_hdr;
 
 /*---DOPPLER PROPERTIES---*/

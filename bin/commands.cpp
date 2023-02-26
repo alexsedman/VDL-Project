@@ -81,3 +81,4 @@ void commands::reset() {
         data_inf.buffer[i] = NULL;
     }
 }
+

@@ -1,16 +1,15 @@
-///
-/// main.cpp
-/// Variable Delay Line (VDL) Project
-///
-/// Created by Alex Sedman on 12/01/2023.
-///
-/// This program requires minimal robustness here - the purpose of this program is to provide a way to generate new WAVs with the implementation of variable delays, using various-order interpolation techniques. It is a closed project, thus does not require as much debugging.
-/// Furthermore, I've chosen to use a few shortcuts here - though having a lot of void functions and duplicate code is generally bad practice, considering that this code is a quick solution to produce various WAVs, the structure here will suffice.
-///
-/// TEST PATHNAME: /Users/alexsedman/Documents/Xcode Projects/Variable Delay Line Project/RealSpringMono.wav
-///
+//
+// main.cpp
+// Variable Delay Line (VDL) Project
+//
+// Created by Alex Sedman on 12/01/2023.
+//
+// This program requires minimal robustness here - the purpose of this program is to provide a way to generate new WAVs with the implementation of variable delays, using various-order interpolation techniques. It is a closed project, thus does not require as much debugging.
+// Furthermore, I've chosen to use a few shortcuts here - though having a lot of void functions and duplicate code is generally bad practice, considering that this code is a quick solution to produce various WAVs, the structure here will suffice.
+//
 
 #include <iostream>
+#include <chrono>
 #include <string>
 #include <fstream>
 #include <cstdint>
@@ -20,17 +19,15 @@
 #include "interpolations.hpp"
 
 int main() {
-    /*---CLASSES---*/
+    // Classes
     commands cmd;
     interpolate filter;
     
-    /*---VARIABLES---*/
+    // Variables
     std::string input, outputName;
     const char* filePath;
-    FILE* wavFile;
     
     while (true) {
-        /*---MENU---*/
         input = cmd.mainMenu(input);
         
         /*---QUIT---*/
@@ -41,7 +38,7 @@ int main() {
         
         /*---FOPEN---*/
         filePath = input.c_str(); // Sets the file path to the user input.
-        wavFile = fopen(filePath, "rb"); // Attempts to open the inputted file.
+        FILE* wavFile = fopen(filePath, "rb"); // Attempts to open the inputted file.
         
         /*---FOPEN ERROR---*/
         if (!wavFile) {
@@ -49,7 +46,6 @@ int main() {
             continue; // If the input is invalid (i.e. 'fopen' returns a null pointer), then this error is thrown and the loop is skipped.
         }
         
-        /*---READ FILE---*/
         cmd.read(wavFile);
         
         /*---HDR INF ERROR---*/
@@ -70,7 +66,12 @@ int main() {
         /// For the sake of convenience, I have separated the various interpolation methods into separate functions. This means there may be some duplicate code here, as some methods may share very similar setups, but it makes the code more readable and simpler to implement for now.
         
         /*---INTERPOLATION---*/
+        
+        
+        
         for (int method = 0; method < 7; method++) {
+            auto clockStart = std::chrono::high_resolution_clock::now();
+            
             switch (method) {
                 case 0:
                     filter.unfiltered();
@@ -101,6 +102,10 @@ int main() {
                     outputName = cmd.rename(input, "-Sinc.wav");
                     break;
             }
+            
+            auto clockEnd = std::chrono::high_resolution_clock::now();
+            auto duration = std::chrono::duration_cast<std::chrono::microseconds>(clockEnd - clockStart);
+            std::cout << "Time taken to generate " << outputName << ": " << duration.count() << "μs" << std::endl;
             
             /*---WRITE & RESET---*/
             cmd.write(outputName);

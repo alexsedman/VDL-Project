@@ -116,8 +116,19 @@ void interpolate::quadratic() {
         double c = s0;
         double x = readPtr - (int)readPtr + 1;
         
-        int16_t outputSample = a * x * x + b * x + c;
-        
+        // 32-bit signed integer calculated first to account for overflow/underflow.
+        int32_t outputSample32 = a * x * x + b * x + c;
+        int16_t outputSample;
+
+        // Saturation arithmetic
+        if (outputSample32 > 32767) {
+            outputSample = 32767;
+        } else if (outputSample32 < -32768) {
+            outputSample = -32768;
+        } else {
+            outputSample = static_cast<int16_t>(outputSample32);
+        }
+                
         data_inf.outputStream[i] = outputSample;
         
         dis += vel;
@@ -154,7 +165,18 @@ void interpolate::cubic() {
         double d = s1;
         double x = readPtr - (int)readPtr + 1;
 
-        int16_t outputSample = a * x * x * x + b * x * x + c * x + d;
+        // 32-bit signed integer calculated first to account for overflow/underflow.
+        int32_t outputSample32 = a * x * x * x + b * x * x + c * x + d;
+        int16_t outputSample;
+
+        // Saturation arithmetic
+        if (outputSample32 > 32767) {
+            outputSample = 32767;
+        } else if (outputSample32 < -32768) {
+            outputSample = -32768;
+        } else {
+            outputSample = static_cast<int16_t>(outputSample32);
+        }
 
         data_inf.outputStream[i] = outputSample;
 
@@ -164,34 +186,35 @@ void interpolate::cubic() {
 }
 
 /*---CASE 6: SINC---*/
-// Complex order Doppler shift: uses the sinc function to find the ideal sampled value for a given read pointer position and applies a low-pass filter to avoid aliasing.
 void interpolate::sinc() {
     double dis = init.dist, vel = init.vel, acc = init.accel;
-    const double alpha = 1.0;
-    double s1 = 0, s2 = 0, s3 = 0, s4 = 0;
+    double weightedSum = 0.0;
 
     for (int i = 0; i < data_inf.numOfSamples; i++) {
-        int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
-        double readPtr = ptrcmd.defineReadPointer(writePtr, dis); // Read pointer defined.
+        int writePtr = ptrcmd.defineWritePointer(i); // Define write pointer.
+        double readPtr = ptrcmd.defineReadPointer(writePtr, dis); // Define read pointer.
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
-        
+
         int n = floor(readPtr);
-        for (int k = n - 7; k <= n + 7; k++) {
+        double frac = readPtr - floor(readPtr); // Fractional part of read pointer.
+
+        // SINC WINDOW FUNCTION (triangular).
+        for (int k = n - 2; k <= n + 2; k++) {
             if (k >= 0 && k < data_inf.bufferLen) {
                 double sincVal = (k == n) ? 1.0 : sin(M_PI * (k - n)) / (M_PI * (k - n));
                 double sampleVal = data_inf.buffer[k];
-                double windowVal = 0.5 * (1 - cos(2 * M_PI * (k - n) / (2 * 4)));
-                s1 += sincVal * sampleVal * windowVal;
-                s2 += sincVal * windowVal;
+                double windowVal = 1 - fabs((k - n) / 4.0);
+                weightedSum += sincVal * sampleVal * windowVal;
             }
         }
-        
-        double outputSample = s1 / s2;
-        data_inf.outputStream[i] = alpha * outputSample + (1 - alpha) * s3;
-        s4 = alpha * s2 + (1 - alpha) * s4;
-        s3 = alpha * outputSample + (1 - alpha) * s4;
-        
+
+        // Interpolate the sample.
+        double nextSample = data_inf.buffer[n+1]; // Get the next sample.
+        double outputSample = weightedSum * (1 - frac) + nextSample * frac; // Interpolate the sample.
+        data_inf.outputStream[i] = outputSample; // Store the interpolated sample.
+
         dis += vel;
         vel += acc;
+        weightedSum = 0.0;
     }
 }

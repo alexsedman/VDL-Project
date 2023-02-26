@@ -28,7 +28,7 @@ void interpolate::unfiltered() {
 /*---CASE 1: ZERO ORDER HOLD---*/
 // 0th order Doppler shift: Holds previous sample.
 void interpolate::zeroOrderHold() {
-    double d = init.dist, v = init.vel;
+    double d = init.dist, v = init.vel, a = init.accel;
     
     for (int i = 0; i < data_inf.numOfSamples; i++) {
         int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
@@ -41,13 +41,14 @@ void interpolate::zeroOrderHold() {
         
         // Distance increased via velocity.
         d += v;
+        v += a;
     }
 }
 
 /*---CASE 2: NEAREST NEIGHBOUR---*/
 // 0th order doppler shift: Uses closest sample.
 void interpolate::nearestNeighbour() {
-    double d = init.dist, v = init.vel;
+    double d = init.dist, v = init.vel, a = init.accel;
     
     for (int i = 0; i < data_inf.numOfSamples; i++) {
         int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
@@ -60,13 +61,14 @@ void interpolate::nearestNeighbour() {
         
         // Distance increased via velocity.
         d += v;
+        v += a;
     }
 }
 
 /*---CASE 3: LINEAR---*/
 // 1st order Doppler shift: finds the linear point between samples.
 void interpolate::linear() {
-    double d = init.dist, v = init.vel;
+    double d = init.dist, v = init.vel, a = init.accel;
     
     for (int i = 0; i < data_inf.numOfSamples; i++) {
         int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
@@ -84,13 +86,14 @@ void interpolate::linear() {
         data_inf.outputStream[i] = outputSample;
         
         d += v;
+        v += a;
     }
 }
 
 /*---CASE 4: QUADRATIC---*/
 // 2nd order Doppler shift: finds the quadratic point between samples.
 void interpolate::quadratic() {
-    double d = init.dist, v = init.vel;
+    double d = init.dist, v = init.vel, a = init.accel;
 
     for (int i = 0; i < data_inf.numOfSamples; i++) {
         int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
@@ -118,13 +121,14 @@ void interpolate::quadratic() {
         data_inf.outputStream[i] = outputSample;
         
         d += v;
+        v += a;
     }
 }
 
 /*---CASE 5: CUBIC---*/
 // 3rd order Doppler shift: finds the cubic point between samples.
 void interpolate::cubic() {
-    double d = init.dist, v = init.vel;
+    double d = init.dist, v = init.vel, a = init.accel;
 
     for (int i = 0; i < data_inf.numOfSamples; i++) {
         int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
@@ -155,13 +159,14 @@ void interpolate::cubic() {
         data_inf.outputStream[i] = outputSample;
 
         d += v;
+        v += a;
     }
 }
 
 /*---CASE 6: SINC---*/
 // Complex order Doppler shift: uses the sinc function to find the ideal sampled value for a given read pointer position and applies a low-pass filter to avoid aliasing.
 void interpolate::sinc() {
-    double d = init.dist, v = init.vel;
+    double d = init.dist, v = init.vel, a = init.accel;
     const double alpha = 1.0;
     double s1 = 0, s2 = 0, s3 = 0, s4 = 0;
 
@@ -187,5 +192,6 @@ void interpolate::sinc() {
         s3 = alpha * outputSample + (1 - alpha) * s4;
         
         d += v;
+        v += a;
     }
 }

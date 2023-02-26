@@ -35,6 +35,7 @@ inline struct WAV_HEADER {
 inline struct INIT_VALS {
     double dist = 500; // Start distance between pointers.
     double vel = 0.25; // Read pointer velocity.
+    double accel = 0.0;
 } init;
 
 /*---DATA INF---*/

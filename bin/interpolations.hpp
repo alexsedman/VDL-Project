@@ -23,6 +23,8 @@ public:
     void quadratic(); // 2 order
     void cubic(); // 3 order
     void sinc(); // Complex order
+    void anchor();
+    void reference();
 };
 
 #endif /* interpolations_hpp */

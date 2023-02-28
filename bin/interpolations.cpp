@@ -218,3 +218,71 @@ void interpolate::sinc() {
         weightedSum = 0.0;
     }
 }
+
+/*---CASE 7: ANCHOR---*/
+void interpolate::anchor() {
+    double dis = init.dist, vel = init.vel, acc = init.accel;
+    double weightedSum = 0.0;
+
+    for (int i = 0; i < data_inf.numOfSamples; i++) {
+        int writePtr = ptrcmd.defineWritePointer(i); // Define write pointer.
+        double readPtr = ptrcmd.defineReadPointer(writePtr, dis); // Define read pointer.
+        ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
+
+        int n = floor(readPtr);
+        double frac = readPtr - floor(readPtr); // Fractional part of read pointer.
+
+        // SINC WINDOW FUNCTION (triangular).
+        for (int k = n - 2; k <= n + 2; k++) {
+            if (k >= 0 && k < data_inf.bufferLen) {
+                double sincVal = (k == n) ? 1.0 : sin(M_PI * (k - n)) / (M_PI * (k - n));
+                double sampleVal = data_inf.buffer[k];
+                double windowVal = 0.5 * (1 - cos(2 * M_PI * (k - n) / (2 * 4)));
+                weightedSum += sincVal * sampleVal * windowVal;
+            }
+        }
+
+        // Interpolate the sample.
+        double nextSample = data_inf.buffer[n+1]; // Get the next sample.
+        double outputSample = weightedSum * (1 - frac) + nextSample * frac; // Interpolate the sample.
+        data_inf.outputStream[i] = outputSample; // Store the interpolated sample.
+
+        dis += vel;
+        vel += acc;
+        weightedSum = 0.0;
+    }
+}
+
+/*---CASE 8: REFERENCE---*/
+void interpolate::reference() {
+    double dis = init.dist, vel = init.vel, acc = init.accel;
+    double weightedSum = 0.0;
+
+    for (int i = 0; i < data_inf.numOfSamples; i++) {
+        int writePtr = ptrcmd.defineWritePointer(i); // Define write pointer.
+        double readPtr = ptrcmd.defineReadPointer(writePtr, dis); // Define read pointer.
+        ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
+
+        int n = floor(readPtr);
+        double frac = readPtr - floor(readPtr); // Fractional part of read pointer.
+
+        // SINC WINDOW FUNCTION (triangular).
+        for (int k = n - 256; k <= n + 256; k++) {
+            if (k >= 0 && k < data_inf.bufferLen) {
+                double sincVal = (k == n) ? 1.0 : sin(M_PI * (k - n)) / (M_PI * (k - n));
+                double sampleVal = data_inf.buffer[k];
+                double windowVal = 1 - fabs((k - n) / 4.0);
+                weightedSum += sincVal * sampleVal * windowVal;
+            }
+        }
+
+        // Interpolate the sample.
+        double nextSample = data_inf.buffer[n+1]; // Get the next sample.
+        double outputSample = weightedSum * (1 - frac) + nextSample * frac; // Interpolate the sample.
+        data_inf.outputStream[i] = outputSample; // Store the interpolated sample.
+
+        dis += vel;
+        vel += acc;
+        weightedSum = 0.0;
+    }
+}

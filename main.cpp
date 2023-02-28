@@ -69,37 +69,45 @@ int main() {
         
         
         
-        for (int method = 0; method < 7; method++) {
+        for (int method = 0; method < 9; method++) {
             auto clockStart = std::chrono::high_resolution_clock::now();
             
             switch (method) {
                 case 0:
                     filter.unfiltered();
-                    outputName = cmd.rename(input, "-Unfiltered.wav");
+                    outputName = cmd.rename(input, "-1-Unfiltered.wav");
                     break;
                 case 1:
                     filter.zeroOrderHold();
-                    outputName = cmd.rename(input, "-0-ZeroOrderHold.wav");
+                    outputName = cmd.rename(input, "-2-ZeroOrderHold.wav");
                     break;
                 case 2:
                     filter.nearestNeighbour();
-                    outputName = cmd.rename(input, "-0-NearestNeighbour.wav");
+                    outputName = cmd.rename(input, "-3-NearestNeighbour.wav");
                     break;
                 case 3:
                     filter.linear();
-                    outputName = cmd.rename(input, "-1-Linear.wav");
+                    outputName = cmd.rename(input, "-4-Linear.wav");
                     break;
                 case 4:
                     filter.quadratic();
-                    outputName = cmd.rename(input, "-2-Quadratic.wav");
+                    outputName = cmd.rename(input, "-5-Quadratic.wav");
                     break;
                 case 5:
                     filter.cubic();
-                    outputName = cmd.rename(input, "-3-Cubic.wav");
+                    outputName = cmd.rename(input, "-6-Cubic.wav");
                     break;
                 case 6:
                     filter.sinc();
-                    outputName = cmd.rename(input, "-Sinc.wav");
+                    outputName = cmd.rename(input, "-7-Sinc.wav");
+                    break;
+                case 7:
+                    filter.anchor();
+                    outputName = cmd.rename(input, "-0-Anchor.wav");
+                    break;
+                case 8:
+                    filter.reference();
+                    outputName = cmd.rename(input, "-8-Reference.wav");
                     break;
             }
             
@@ -111,5 +119,6 @@ int main() {
             cmd.write(outputName);
             cmd.reset();
         }
+        std::cout << "VALUES: d = " << init.dist << "; v = " << init.vel << "; a = " << init.accel << std::endl;
     }
 }

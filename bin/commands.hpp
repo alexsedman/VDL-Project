@@ -33,9 +33,9 @@ inline struct WAV_HEADER {
 // A data structure for the test values.
 // NOTE: TO REMOVE AND REPLACE WITH BUFFER/DATASTREAM PROPERTIES INSTEAD.
 inline struct INIT_VALS {
-    double dist = 500; // Start distance between pointers.
-    double vel = 0.25; // Read pointer velocity.
-    double accel = 0.0;
+    double dist = 88200; // Start distance between pointers.
+    double vel = -0.2; // Read pointer velocity.
+    double accel = 0.000002; // -0.000001
 } init;
 
 /*---DATA INF---*/

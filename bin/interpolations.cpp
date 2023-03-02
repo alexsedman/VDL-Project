@@ -90,35 +90,34 @@ void interpolate::linear() {
     }
 }
 
-/*---CASE 4: QUADRATIC---*/
 // 2nd order Doppler shift: finds the quadratic point between samples.
 void interpolate::quadratic() {
     double dis = init.dist, vel = init.vel, acc = init.accel;
+    double s0, s1, s2, a, b, c, x, outputSample;
 
     for (int i = 0; i < data_inf.numOfSamples; i++) {
         int writePtr = ptrcmd.defineWritePointer(i); // Write pointer defined.
         double readPtr = ptrcmd.defineReadPointer(writePtr, dis); // Read pointer defined.
         ptrcmd.writeToBuffer(i, writePtr); // Write to buffer.
         
-        // Calculate the nearest sample indeces.
-        int i0 = ((int)floor(readPtr) % data_inf.bufferLen) - 1;
-        int i1 = floor(readPtr);
-        int i2 = ((int)floor(readPtr) % data_inf.bufferLen) + 1;
+        // Calculate the nearest sample indices.
+        int i1 = (int)floor(readPtr) % data_inf.bufferLen;
+        int i0 = (i1 + data_inf.bufferLen - 1) % data_inf.bufferLen;
+        int i2 = (i1 + 1) % data_inf.bufferLen;
         
-        // Find the amplitude for these 3 nearest samples. Treating polynomial as if i0 = 0, i1 = 1, i2 = 2.
-        int16_t s0 = data_inf.buffer[i0];
-        int16_t s1 = data_inf.buffer[i1];
-        int16_t s2 = data_inf.buffer[i2];
+        // Find the amplitude for these 3 nearest samples.
+        s0 = data_inf.buffer[i0];
+        s1 = data_inf.buffer[i1];
+        s2 = data_inf.buffer[i2];
         
         // Calculate coefficients and read pointer position (read pointer should be located between i1 and i2).
-        double a = ((s0 - s2) + 2 * (s1 - s0)) * -1;
-        double b = s1 - s0 - a;
-        double c = s0;
-        double x = readPtr - (int)readPtr + 1;
+        x = readPtr - (int)readPtr + 1;
+        a = (s2 - 2 * s1 + s0) / 2.0;
+        b = (s2 - s0) / 2.0;
+        c = s1;
         
         // 32-bit signed integer calculated first to account for overflow/underflow.
-        int32_t outputSample32 = a * x * x + b * x + c;
-        int16_t outputSample;
+        int32_t outputSample32 = (int32_t)round(a * x * x + b * x + c);
 
         // Saturation arithmetic
         if (outputSample32 > 32767) {
@@ -126,7 +125,7 @@ void interpolate::quadratic() {
         } else if (outputSample32 < -32768) {
             outputSample = -32768;
         } else {
-            outputSample = static_cast<int16_t>(outputSample32);
+            outputSample = (int16_t)outputSample32;
         }
                 
         data_inf.outputStream[i] = outputSample;

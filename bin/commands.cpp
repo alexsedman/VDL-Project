@@ -71,7 +71,7 @@ void commands::write(std::string newFilePath) {
     fseek(newFile, data_inf.headerSize, SEEK_SET);
     fwrite(data_inf.outputStream, 2, data_inf.numOfSamples, newFile);
     fclose(newFile);
-    std::cout << "New WAV '" << newFilePath << "' created." << std::endl;
+    //std::cout << "New WAV '" << newFilePath << "' created." << std::endl;
 }
 
 /*---RESET---*/

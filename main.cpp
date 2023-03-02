@@ -119,6 +119,6 @@ int main() {
             cmd.write(outputName);
             cmd.reset();
         }
-        std::cout << "VALUES: d = " << init.dist << "; v = " << init.vel << "; a = " << init.accel << std::endl;
+        std::cout << "VALUES: d = " << init.dist << "; v = " << init.vel << "; a = " << init.accel << "\n\n";
     }
 }
